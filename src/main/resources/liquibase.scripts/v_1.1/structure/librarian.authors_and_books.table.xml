@@ -1,0 +1,15 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	<changeSet id="librarian.authors_books.table-v_1.0_5" author="candidate\ns">
+
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="AUTHORS_BOOKS"/>
+        </preConditions>
+
+		<addPrimaryKey columnNames="AUTHOR_ID, BOOK_ID"
+					   constraintName="PK_AUTHORS_AND_BOOKS_IDS"
+					   tableName="AUTHORS_BOOKS"/>
+
+    </changeSet>
+</databaseChangeLog>

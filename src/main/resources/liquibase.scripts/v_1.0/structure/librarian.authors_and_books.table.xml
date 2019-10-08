@@ -1,0 +1,82 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+  
+  	<changeSet id="librarian.authors.table-v_1.0_2" author="candidate\ns">
+
+		<preConditions onFail="MARK_RAN">
+			<dbms type="postgresql"/>
+			<not><tableExists tableName="AUTHORS" /></not>
+		</preConditions>
+
+
+		<createTable tableName="AUTHORS">
+			<column name = "ID" type="BIGSERIAL">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name = "REC_VERSION" type="INTEGER"/>
+			<column name = "FIRST_NAME" type="VARCHAR(128)">
+				<constraints nullable="false"/>
+			</column>
+			<column name = "LAST_NAME" type="VARCHAR(128)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+
+		<rollback>
+		  drop table authors
+		</rollback>
+  	</changeSet>
+
+	<changeSet id="librarian.books.table-v_1.0_3" author="candidate\ns">
+
+		<preConditions onFail="MARK_RAN">
+			<dbms type="postgresql"/>
+            <not><tableExists tableName="BOOKS"/></not>
+		</preConditions>
+
+
+		<createTable tableName="BOOKS">
+			<column name = "ID" type="BIGSERIAL">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name = "REC_VERSION" type="INTEGER"/>
+			<column name = "TITLE" type="VARCHAR(256)">
+				<constraints nullable="false" unique="true"/>
+			</column>
+		</createTable>
+
+		<rollback>
+			drop table books
+		</rollback>
+	</changeSet>
+
+    <changeSet id="librarian.authors_books.table-v_1.0_4" author="candidate\ns">
+
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="AUTHORS"/>
+            <tableExists tableName="BOOKS"/>
+            <not><tableExists tableName="AUTHORS_BOOKS"/></not>
+        </preConditions>
+
+
+        <createTable tableName="AUTHORS_BOOKS">
+            <column name = "AUTHOR_ID" type="BIGINT">
+                <constraints primaryKeyName="PK_AUTHORS_AND_BOOKS_IDS"
+                             nullable="false"
+                             foreignKeyName="FK_AUTHORS_BOOKS_AUTHORS"
+                             references="AUTHORS(ID)"/>
+            </column>
+            <column name = "BOOK_ID" type="BIGINT">
+                <constraints primaryKeyName="PK_AUTHORS_AND_BOOKS_IDS"
+                             nullable="false"
+                             foreignKeyName="FK_AUTHORS_BOOKS_BOOKS"
+                             references="BOOKS(ID)"/>/>
+            </column>
+        </createTable>
+
+        <rollback>
+            drop table authors_books
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

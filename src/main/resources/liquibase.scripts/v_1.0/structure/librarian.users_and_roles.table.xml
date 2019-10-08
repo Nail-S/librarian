@@ -1,0 +1,65 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+  
+  	<changeSet id="librarian.users.table-v_1.0" author="candidate\ns">
+
+		<preConditions onFail="MARK_RAN">
+			<dbms type="postgresql" />
+			<not><tableExists tableName="USERS" /></not>
+		</preConditions>
+
+
+		<createTable tableName="USERS">
+			<column name = "ID" type="BIGSERIAL">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name = "REC_VERSION" type="INTEGER"/>
+			<column name = "FIRST_NAME" type="VARCHAR(128)">
+				<constraints nullable="false"/>
+			</column>
+			<column name = "LAST_NAME" type="VARCHAR(128)">
+				<constraints nullable="false"/>
+			</column>
+			<column name = "PASSWORD" type="VARCHAR(128)">
+				<constraints nullable="false"/>
+			</column>
+			<column name = "EMAIL" type="VARCHAR(128)">
+				<constraints nullable="false" unique="true"/>
+			</column>
+		</createTable>
+
+		<rollback>
+		  drop table users
+		</rollback>
+  	</changeSet>
+
+	<changeSet id="librarian.user_roles.table-v_1.0_1" author="candidate\ns">
+
+		<preConditions onFail="MARK_RAN">
+			<dbms type="postgresql"/>
+			<tableExists tableName="USERS" />
+			<not><tableExists tableName="USER_ROLES" /></not>
+		</preConditions>
+
+
+		<createTable tableName="USER_ROLES">
+			<column name = "ID" type="BIGSERIAL">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name = "NAME" type="VARCHAR(128)">
+				<constraints nullable="false" primaryKeyName="PK_NAME_USER_ID"/>
+			</column>
+			<column name = "USER_ID" type="BIGINT">
+				<constraints nullable="false"
+							 primaryKeyName="PK_NAME_USER_ID"
+                             foreignKeyName="FK_USER_ROLES_USERS"
+                             references="USERS(ID)"/>
+			</column>
+		</createTable>
+
+		<rollback>
+			drop table user_roles
+		</rollback>
+	</changeSet>
+</databaseChangeLog>
