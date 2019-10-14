@@ -1,9 +1,9 @@
 package com.skillstest.librarian.service.security;
 
-import com.skillstest.librarian.data.security.Roles;
-import com.skillstest.librarian.data.security.User;
-import com.skillstest.librarian.data.security.UserPrincipal;
-import com.skillstest.librarian.data.security.UserRole;
+import com.skillstest.librarian.domain.security.Roles;
+import com.skillstest.librarian.domain.security.User;
+import com.skillstest.librarian.domain.security.UserPrincipal;
+import com.skillstest.librarian.domain.security.UserRole;
 import com.skillstest.librarian.repository.security.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

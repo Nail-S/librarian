@@ -1,8 +1,7 @@
 package com.skillstest.librarian.controller;
 
-import com.skillstest.librarian.data.entity.Author;
-import com.skillstest.librarian.data.entity.AuthorDto;
-import com.skillstest.librarian.data.entity.BookDto;
+import com.skillstest.librarian.domain.model.AuthorDto;
+import com.skillstest.librarian.domain.model.BookDto;
 import com.skillstest.librarian.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

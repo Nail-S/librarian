@@ -15,10 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static com.skillstest.librarian.data.security.Roles.READER;
-import static com.skillstest.librarian.data.security.Roles.WRITER;
-import static com.skillstest.librarian.data.security.Roles.EDITOR;
-import static com.skillstest.librarian.data.security.Roles.ADMIN;
+import static com.skillstest.librarian.domain.security.Roles.READER;
+import static com.skillstest.librarian.domain.security.Roles.WRITER;
+import static com.skillstest.librarian.domain.security.Roles.EDITOR;
+import static com.skillstest.librarian.domain.security.Roles.ADMIN;
 
 @Configuration
 @EnableWebSecurity

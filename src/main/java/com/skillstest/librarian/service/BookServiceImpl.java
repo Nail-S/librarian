@@ -1,6 +1,6 @@
 package com.skillstest.librarian.service;
 
-import com.skillstest.librarian.data.entity.*;
+import com.skillstest.librarian.domain.model.*;
 import com.skillstest.librarian.repository.AuthorRepository;
 import com.skillstest.librarian.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;

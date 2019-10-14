@@ -1,9 +1,9 @@
 package com.skillstest.librarian.controller.security;
 
-import com.skillstest.librarian.data.security.User;
-import com.skillstest.librarian.data.security.UserDto;
+import com.skillstest.librarian.domain.security.User;
+import com.skillstest.librarian.domain.security.UserDto;
 import com.skillstest.librarian.repository.security.UserRepository;
-import com.skillstest.librarian.data.security.SecurityDomainDtoConverter;
+import com.skillstest.librarian.domain.security.SecurityDomainDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

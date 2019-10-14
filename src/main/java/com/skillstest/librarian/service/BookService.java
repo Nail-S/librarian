@@ -1,7 +1,7 @@
 package com.skillstest.librarian.service;
 
-import com.skillstest.librarian.data.entity.AuthorDto;
-import com.skillstest.librarian.data.entity.BookDto;
+import com.skillstest.librarian.domain.model.AuthorDto;
+import com.skillstest.librarian.domain.model.BookDto;
 
 import java.util.List;
 import java.util.Optional;
