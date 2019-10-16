@@ -27,6 +27,20 @@ public class BookController {
         return response;
     }
 
+    @GetMapping("/books/title")
+    public ResponseEntity<List<BookDto>> getBooksByTitle (@RequestParam String title) {
+        List<BookDto> payload = bookService.getByTitle(title);
+        ResponseEntity<List<BookDto>> response = new ResponseEntity<>(payload, HttpStatus.OK);
+        return response;
+    }
+
+    @GetMapping("/books/author")
+    public ResponseEntity<List<BookDto>> getBooksByAuthorName (@RequestParam String name) {
+        List<BookDto> payload = bookService.getByAuthorName(name);
+        ResponseEntity<List<BookDto>> response = new ResponseEntity<>(payload, HttpStatus.OK);
+        return response;
+    }
+
     @GetMapping("/books/{id}")
     public ResponseEntity<BookDto> getBook (@PathVariable Long id) {
         Optional<BookDto> resultOptional = bookService.get(id);
@@ -45,9 +59,9 @@ public class BookController {
 
     @PostMapping("/books/all")
     public ResponseEntity<List<BookDto>> createAll(@RequestBody List<BookDto> books) {
-        Optional<List<BookDto>> resultOptional = bookService.createAll(books);
-        ResponseEntity<List<BookDto>> response = resultOptional.isPresent() ? new ResponseEntity<>(resultOptional.get(),
-                HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        List<BookDto> dtoBooks = bookService.createAll(books);
+        ResponseEntity<List<BookDto>> response = dtoBooks == null || dtoBooks.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) :
+                new ResponseEntity<>(dtoBooks, HttpStatus.CREATED);
         return response;
     }
 

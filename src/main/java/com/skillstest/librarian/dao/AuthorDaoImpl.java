@@ -2,12 +2,18 @@ package com.skillstest.librarian.dao;
 
 import com.skillstest.librarian.domain.model.Author;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.StatelessSession;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Component
 public class AuthorDaoImpl implements AuthorDao {
     @PersistenceContext
     private EntityManager entityManager;
@@ -16,6 +22,7 @@ public class AuthorDaoImpl implements AuthorDao {
     public List<Author> getAll() {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Author> criteria = builder.createQuery( Author.class );
+        Root<Author> root = criteria.from(Author.class);
         return entityManager.createQuery( criteria ).getResultList();
     }
 
@@ -30,11 +37,11 @@ public class AuthorDaoImpl implements AuthorDao {
         List<Author> authors = entityManager.createQuery(criteria).getResultList();
         return authors;
     }
-
+//TODO Fix the attribute path problem
     @Override
     public List<Author> findByBookTitle(String title) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Author> criteria = builder.createQuery( Author.class );
+        CriteriaQuery<Author> criteria = builder.createQuery(Author.class);
         Root<Author> root = criteria.from(Author.class);
         criteria.where(builder.like(root.get("books.book.title"), title));
         List<Author> authors = entityManager.createQuery(criteria).getResultList();
@@ -42,13 +49,16 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public Author getById(Long id) {
-        return entityManager.find(Author.class, id);
+    public Optional<Author> getById(Long id) {
+        Session session = entityManager.unwrap(Session.class);
+        return session.byId(Author.class).loadOptional(id);
     }
 
     @Override
-    public void update(Author author) {
-        entityManager.unwrap(Session.class).saveOrUpdate(author);
+    public Author update(Author author) {
+        Session session = entityManager.unwrap(Session.class);
+        session.saveOrUpdate(author);
+        return session.byId(Author.class).load(author.getId());
     }
 
     @Override
@@ -58,7 +68,20 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public void create(Author author) {
-        entityManager.persist(author);
+    public Author create(Author author) {
+        Session session = entityManager.unwrap(Session.class);
+        Long id = (Long) session.save(author);
+        return session.byId(Author.class).load(id);
+    }
+
+    @Override
+    public List<Author> createAll(List<Author> authors) {
+        SessionFactory factory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
+        StatelessSession session = factory.openStatelessSession();
+        List<Author> saved = authors.stream()
+                .map(b -> session.insert(b))
+                .map(id -> (Author) session.get(Author.class, id))
+                .collect(Collectors.toList());
+        return saved;
     }
 }

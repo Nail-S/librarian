@@ -5,6 +5,7 @@ import com.skillstest.librarian.domain.security.User;
 import com.skillstest.librarian.domain.security.UserPrincipal;
 import com.skillstest.librarian.domain.security.UserRole;
 import com.skillstest.librarian.repository.security.UserRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
+@Log4j2
 @Service
 public class LibraryUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
@@ -35,9 +37,9 @@ public class LibraryUserDetailsService implements UserDetailsService {
 
     @Transactional
     public void initUsers() {
-        System.out.println("Checking the number of application users");
+        log.info("Checking the number of application users");
         long count = userRepository.count();
-        System.out.println("The number of users found in the database is " + count);
+        log.info("The number of users found in the database is " + count);
         if (count > 0) return;
         System.out.println("Creating new ones!");
         User librarian = new User("librarian@movie.com", passwordEncoder.encode("12345"), "Flynn", "Carsen");

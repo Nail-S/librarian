@@ -2,6 +2,8 @@ package com.skillstest.librarian.domain.security;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -10,6 +12,7 @@ import java.util.Set;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
+@ToString (exclude = "password")
 public class UserDto implements Serializable {
     private static final long serialVersionUID = 8733718035860526256L;
     private Long id;

@@ -1,10 +1,12 @@
 package com.skillstest.librarian.domain.model;
 
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
+@ToString
 public class AuthorDto implements Serializable {
     private static final long serialVersionUID = -162117000065679856L;
 
